@@ -9,14 +9,30 @@ API documentation is available at https://docs.seam.co/latest/api-clients/overvi
 
 ## Installation
 
-```sh
-pip install --upgrade fern-seam
+Add this dependency to your project's build file:
+
+```bash
+pip install fern-seam
+# or
+poetry add fern-seam
 ```
 
 ## Usage
 
 ```python
-TODO
+from seam.client import Seam
+
+client = Seam(api_key="YOUR_API_KEY")
+```
+
+## Async client
+
+This SDK also includes an async client, which supports the `await` syntax:
+
+```python
+from seam.client import AsyncSeam
+
+raven = AsyncSeam(auth_key="YOUR_AUTH_KEY")
 ```
 
 ## Beta status

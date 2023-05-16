@@ -3,5 +3,5 @@
 import enum
 
 
-class SeamApiEnvironment(enum.Enum):
+class BaseSeamClientEnvironment(enum.Enum):
     PRODUCTION = "https://connect.getseam.com"

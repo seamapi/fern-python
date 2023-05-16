@@ -11,7 +11,7 @@ import pydantic
 from ...core.api_error import ApiError
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
-from ...environment import SeamApiEnvironment
+from ...environment import BaseSeamClientEnvironment
 from ..action_attempts.types.action_attempt import ActionAttempt
 from .types.create_access_code_response import CreateAccessCodeResponse
 from .types.update_access_code_response import UpdateAccessCodeResponse
@@ -21,7 +21,7 @@ OMIT = typing.cast(typing.Any, ...)
 
 
 class AccessCodesClient:
-    def __init__(self, *, environment: SeamApiEnvironment = SeamApiEnvironment.PRODUCTION, token: str):
+    def __init__(self, *, environment: BaseSeamClientEnvironment = BaseSeamClientEnvironment.PRODUCTION, token: str):
         self._environment = environment
         self._token = token
 
@@ -121,7 +121,7 @@ class AccessCodesClient:
 
 
 class AsyncAccessCodesClient:
-    def __init__(self, *, environment: SeamApiEnvironment = SeamApiEnvironment.PRODUCTION, token: str):
+    def __init__(self, *, environment: BaseSeamClientEnvironment = BaseSeamClientEnvironment.PRODUCTION, token: str):
         self._environment = environment
         self._token = token
 

@@ -28,7 +28,7 @@ class AccessCodes(AccessCodesClient):
         super().__init__(environment=environment, token=token)
         self._base_client = base_client
 
-    def update(  # type: ignore
+    def update_and_wait_until_ready(
         self,
         *,
         access_code_id: str,

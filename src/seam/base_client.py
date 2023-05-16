@@ -2,6 +2,7 @@
 
 from .environment import SeamEnvironment
 from .resources.access_codes.client import AccessCodesClient, AsyncAccessCodesClient
+from .resources.action_attempts.client import ActionAttemptsClient, AsyncActionAttemptsClient
 
 
 class Seam:
@@ -9,6 +10,7 @@ class Seam:
         self._environment = environment
         self._token = token
         self.access_codes = AccessCodesClient(environment=self._environment, token=self._token)
+        self.action_attempts = ActionAttemptsClient(environment=self._environment, token=self._token)
 
 
 class AsyncSeam:
@@ -16,3 +18,4 @@ class AsyncSeam:
         self._environment = environment
         self._token = token
         self.access_codes = AsyncAccessCodesClient(environment=self._environment, token=self._token)
+        self.action_attempts = AsyncActionAttemptsClient(environment=self._environment, token=self._token)

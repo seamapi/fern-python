@@ -6,7 +6,7 @@ from .base_client import Seam as BaseClient
 from .environment import SeamEnvironment
 from .resources.access_codes.client import AccessCodesClient
 from .resources.action_attempts.client import ActionAttemptsClient
-from . import UpdateAccessCodeResponse, ActionAttemptId, ActionAttempt, AccessCode
+from . import UpdateAccessCodeResponse, ActionAttemptId, ActionAttempt
 
 
 # this is used as the default value for optional parameters
@@ -28,7 +28,7 @@ class AccessCodes(AccessCodesClient):
         super().__init__(environment=environment, token=token)
         self._action_attempts_client = action_attempts_client
 
-    def update(  # type: ignore
+    def update(
         self,
         *,
         access_code_id: str,
@@ -36,7 +36,7 @@ class AccessCodes(AccessCodesClient):
         code: typing.Optional[str] = OMIT,
         starts_at: typing.Optional[dt.datetime] = OMIT,
         ends_at: typing.Optional[dt.datetime] = OMIT,
-    ) -> AccessCode:
+    ) -> UpdateAccessCodeResponse:
         res = super().update(
             access_code_id=access_code_id,
             name=name,

@@ -5,30 +5,30 @@ import time
 from .base_client import Seam as BaseClient
 from .environment import SeamEnvironment
 from .resources.access_codes.client import AccessCodesClient
-from .resources.action_attempts.client import ActionAttemptsClient
-from . import UpdateAccessCodeResponse, ActionAttemptId, ActionAttempt, AccessCode
+from . import ActionAttemptId, ActionAttempt, AccessCode
 
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
 
-class Seam(BaseClient):
+class Seam:
     def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.PRODUCTION, token: str):
-        super().__init__(environment=environment, token=token)
+        self._client = BaseClient(environment=environment, token=token)
+        self.action_attempts = self._client.action_attempts
         self.access_codes = AccessCodes(
-            environment=self._environment,
-            token=self._token,
-            action_attempts_client=self.action_attempts,
+            environment=environment,
+            token=token,
+            base_client=self._client,
         )
 
 
 class AccessCodes(AccessCodesClient):
-    def __init__(self, *, environment: SeamEnvironment, token: str, action_attempts_client: ActionAttemptsClient):
+    def __init__(self, *, environment: SeamEnvironment, token: str, base_client: BaseClient):
         super().__init__(environment=environment, token=token)
-        self._action_attempts_client = action_attempts_client
+        self._base_client = base_client
 
-    def update_and_wait_until_ready(  # type: ignore
+    def update(  # type: ignore
         self,
         *,
         access_code_id: str,
@@ -37,7 +37,7 @@ class AccessCodes(AccessCodesClient):
         starts_at: typing.Optional[dt.datetime] = OMIT,
         ends_at: typing.Optional[dt.datetime] = OMIT,
     ) -> AccessCode:
-        res = super().update(
+        res = self._base_client.access_codes.update(
             access_code_id=access_code_id,
             name=name,
             code=code,
@@ -57,7 +57,7 @@ class AccessCodes(AccessCodesClient):
             updated_action_attempt is None
             or updated_action_attempt.status == "pending"
         ):
-            updated_action_attempt = self._action_attempts_client.get(action_attempt_id=action_attempt)
+            updated_action_attempt = self._base_client.action_attempts.get(action_attempt_id=action_attempt)
             time.sleep(0.25)
 
         if updated_action_attempt.status == "error":

@@ -22,7 +22,17 @@ poetry add fern-seam
 ```python
 from seam.client import Seam
 
-client = Seam(api_key="YOUR_API_KEY")
+seam_client = Seam(token="MY_TOKEN")
+
+response = seam_client.access_codes.update_and_wait_until_ready(
+    access_code_id="my access code id",
+    name="access code name",
+    code="access code",
+    starts_at=dt.datetime(2023, 3, 1, 12, 0, 0),
+    ends_at=dt.datetime(2023, 3, 5, 12, 0, 0),
+)
+
+print(response.access_code_id)
 ```
 
 ## Async client
@@ -32,7 +42,20 @@ This SDK also includes an async client, which supports the `await` syntax:
 ```python
 from seam.client import AsyncSeam
 
-raven = AsyncSeam(auth_key="YOUR_AUTH_KEY")
+seam_client = AsyncSeam(token="MY_TOKEN")
+
+async def update_access_code() -> None:
+    response = seam_client.access_codes.update_and_wait_until_ready(
+        access_code_id="my access code id",
+        name="access code name",
+        code="access code",
+        starts_at=dt.datetime(2023, 3, 1, 12, 0, 0),
+        ends_at=dt.datetime(2023, 3, 5, 12, 0, 0),
+    )
+
+    print(response.access_code_id)
+
+asyncio.run(update_access_code())
 ```
 
 ## Beta status

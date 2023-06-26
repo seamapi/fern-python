@@ -5,14 +5,13 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...action_attempts.types.action_attempt import ActionAttempt
-from .access_code import AccessCode
+from ..core.datetime_utils import serialize_datetime
+from .access_codes_update_put_response_action_attempt import AccessCodesUpdatePutResponseActionAttempt
 
 
-class CreateAccessCodeResponse(pydantic.BaseModel):
-    action_attempt: ActionAttempt
-    access_code: AccessCode
+class AccessCodesUpdatePutResponse(pydantic.BaseModel):
+    action_attempt: AccessCodesUpdatePutResponseActionAttempt
+    ok: bool
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

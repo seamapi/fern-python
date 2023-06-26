@@ -5,12 +5,12 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
+from ..core.datetime_utils import serialize_datetime
 
 
-class AccessCodeWarning(pydantic.BaseModel):
+class AccessCodesCreateResponseActionAttemptErrorError(pydantic.BaseModel):
+    type: str
     message: str
-    created_at: dt.datetime
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

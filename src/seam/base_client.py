@@ -6,7 +6,7 @@ from .resources.action_attempts.client import ActionAttemptsClient, AsyncActionA
 
 
 class Seam:
-    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.PRODUCTION, token: str):
+    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, token: str):
         self._environment = environment
         self._token = token
         self.access_codes = AccessCodesClient(environment=self._environment, token=self._token)
@@ -14,7 +14,7 @@ class Seam:
 
 
 class AsyncSeam:
-    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.PRODUCTION, token: str):
+    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, token: str):
         self._environment = environment
         self._token = token
         self.access_codes = AsyncAccessCodesClient(environment=self._environment, token=self._token)

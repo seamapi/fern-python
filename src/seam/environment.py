@@ -4,4 +4,4 @@ import enum
 
 
 class SeamEnvironment(enum.Enum):
-    PRODUCTION = "https://connect.getseam.com"
+    DEFAULT = "https://connect.getseam.com"

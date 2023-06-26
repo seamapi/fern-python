@@ -5,12 +5,14 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...action_attempts.types.action_attempt import ActionAttempt
+from ..core.datetime_utils import serialize_datetime
 
 
-class UpdateAccessCodeResponse(pydantic.BaseModel):
-    action_attempt: ActionAttempt
+class AccessCodesUpdatePutResponseActionAttemptPending(pydantic.BaseModel):
+    action_type: str
+    action_attempt_id: str
+    result: typing.Optional[str]
+    error: typing.Optional[str]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

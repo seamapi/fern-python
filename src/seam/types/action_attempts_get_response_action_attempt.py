@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from .action_attempts_get_response_action_attempt_error import ActionAttemptsGetResponseActionAttemptError
@@ -36,11 +35,8 @@ class ActionAttemptsGetResponseActionAttempt_Error(ActionAttemptsGetResponseActi
         allow_population_by_field_name = True
 
 
-ActionAttemptsGetResponseActionAttempt = typing_extensions.Annotated[
-    typing.Union[
-        ActionAttemptsGetResponseActionAttempt_Success,
-        ActionAttemptsGetResponseActionAttempt_Pending,
-        ActionAttemptsGetResponseActionAttempt_Error,
-    ],
-    pydantic.Field(discriminator="status"),
+ActionAttemptsGetResponseActionAttempt = typing.Union[
+    ActionAttemptsGetResponseActionAttempt_Success,
+    ActionAttemptsGetResponseActionAttempt_Pending,
+    ActionAttemptsGetResponseActionAttempt_Error,
 ]

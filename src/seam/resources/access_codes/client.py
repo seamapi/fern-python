@@ -27,7 +27,7 @@ class AccessCodesClient:
         self._environment = environment
         self._token = token
 
-    def create(
+    def access_codes_create(
         self,
         *,
         device_id: str,
@@ -75,7 +75,7 @@ class AccessCodesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(
+    def access_codes_delete(
         self, *, device_id: typing.Optional[str] = OMIT, access_code_id: str, sync: typing.Optional[bool] = OMIT
     ) -> AccessCodesDeleteResponse:
         _request: typing.Dict[str, typing.Any] = {"access_code_id": access_code_id}
@@ -104,7 +104,7 @@ class AccessCodesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update_put(
+    def access_codes_update_put(
         self,
         *,
         name: typing.Optional[str] = OMIT,
@@ -161,7 +161,7 @@ class AsyncAccessCodesClient:
         self._environment = environment
         self._token = token
 
-    async def create(
+    async def access_codes_create(
         self,
         *,
         device_id: str,
@@ -210,7 +210,7 @@ class AsyncAccessCodesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(
+    async def access_codes_delete(
         self, *, device_id: typing.Optional[str] = OMIT, access_code_id: str, sync: typing.Optional[bool] = OMIT
     ) -> AccessCodesDeleteResponse:
         _request: typing.Dict[str, typing.Any] = {"access_code_id": access_code_id}
@@ -240,7 +240,7 @@ class AsyncAccessCodesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update_put(
+    async def access_codes_update_put(
         self,
         *,
         name: typing.Optional[str] = OMIT,

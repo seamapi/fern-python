@@ -20,7 +20,7 @@ class ActionAttemptsClient:
         self._environment = environment
         self._token = token
 
-    def get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
+    def action_attempts_get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/get"),
@@ -48,7 +48,7 @@ class AsyncActionAttemptsClient:
         self._environment = environment
         self._token = token
 
-    async def get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
+    async def action_attempts_get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",

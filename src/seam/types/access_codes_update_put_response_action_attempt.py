@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from .access_codes_update_put_response_action_attempt_error import AccessCodesUpdatePutResponseActionAttemptError
@@ -36,11 +35,8 @@ class AccessCodesUpdatePutResponseActionAttempt_Error(AccessCodesUpdatePutRespon
         allow_population_by_field_name = True
 
 
-AccessCodesUpdatePutResponseActionAttempt = typing_extensions.Annotated[
-    typing.Union[
-        AccessCodesUpdatePutResponseActionAttempt_Success,
-        AccessCodesUpdatePutResponseActionAttempt_Pending,
-        AccessCodesUpdatePutResponseActionAttempt_Error,
-    ],
-    pydantic.Field(discriminator="status"),
+AccessCodesUpdatePutResponseActionAttempt = typing.Union[
+    AccessCodesUpdatePutResponseActionAttempt_Success,
+    AccessCodesUpdatePutResponseActionAttempt_Pending,
+    AccessCodesUpdatePutResponseActionAttempt_Error,
 ]

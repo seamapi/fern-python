@@ -6,11 +6,11 @@ import typing
 import pydantic
 
 from ..core.datetime_utils import serialize_datetime
-from .action_attempts_get_response_action_attempt import ActionAttemptsGetResponseActionAttempt
+from .action_attempt import ActionAttempt
 
 
 class ActionAttemptsGetResponse(pydantic.BaseModel):
-    action_attempt: ActionAttemptsGetResponseActionAttempt
+    action_attempt: ActionAttempt
     ok: bool
 
     def json(self, **kwargs: typing.Any) -> str:

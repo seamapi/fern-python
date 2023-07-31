@@ -6,11 +6,11 @@ import typing
 import pydantic
 
 from ..core.datetime_utils import serialize_datetime
-from .access_codes_delete_response_action_attempt import AccessCodesDeleteResponseActionAttempt
+from .action_attempt import ActionAttempt
 
 
 class AccessCodesDeleteResponse(pydantic.BaseModel):
-    action_attempt: AccessCodesDeleteResponseActionAttempt
+    action_attempt: ActionAttempt
     ok: bool
 
     def json(self, **kwargs: typing.Any) -> str:

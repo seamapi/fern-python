@@ -4,30 +4,36 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from ...core.api_error import ApiError
-from ...core.remove_none_from_headers import remove_none_from_headers
+from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from ...core.jsonable_encoder import jsonable_encoder
 from ...environment import SeamEnvironment
 from ...errors.bad_request_error import BadRequestError
 from ...errors.unauthorized_error import UnauthorizedError
 from ...types.action_attempts_get_response import ActionAttemptsGetResponse
+from ...types.action_attempts_list_response import ActionAttemptsListResponse
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class ActionAttemptsClient:
-    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, token: str):
+    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, client_wrapper: SyncClientWrapper):
         self._environment = environment
-        self._token = token
+        self._client_wrapper = client_wrapper
 
-    def action_attempts_get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
-        _response = httpx.request(
-            "GET",
+    def get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
+        """
+        Parameters:
+            - action_attempt_id: str.
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/get"),
-            params={"action_attempt_id": action_attempt_id},
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            json=jsonable_encoder({"action_attempt_id": action_attempt_id}),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -42,25 +48,74 @@ class ActionAttemptsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def list(self, *, action_attempt_ids: typing.List[str]) -> ActionAttemptsListResponse:
+        """
+        Parameters:
+            - action_attempt_ids: typing.List[str].
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/list"),
+            json=jsonable_encoder({"action_attempt_ids": action_attempt_ids}),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ActionAttemptsListResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncActionAttemptsClient:
-    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, token: str):
+    def __init__(self, *, environment: SeamEnvironment = SeamEnvironment.DEFAULT, client_wrapper: AsyncClientWrapper):
         self._environment = environment
-        self._token = token
+        self._client_wrapper = client_wrapper
 
-    async def action_attempts_get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/get"),
-                params={"action_attempt_id": action_attempt_id},
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+    async def get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
+        """
+        Parameters:
+            - action_attempt_id: str.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/get"),
+            json=jsonable_encoder({"action_attempt_id": action_attempt_id}),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(ActionAttemptsGetResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def list(self, *, action_attempt_ids: typing.List[str]) -> ActionAttemptsListResponse:
+        """
+        Parameters:
+            - action_attempt_ids: typing.List[str].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", "action_attempts/list"),
+            json=jsonable_encoder({"action_attempt_ids": action_attempt_ids}),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ActionAttemptsListResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

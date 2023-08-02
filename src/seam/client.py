@@ -26,7 +26,7 @@ class Seam:
         self,
         *,
         environment: SeamEnvironment = SeamEnvironment.DEFAULT,
-        api_key: str,
+        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
         timeout: typing.Optional[float] = 60
     ):
         self._environment = environment
@@ -51,7 +51,7 @@ class AsyncSeam:
         self,
         *,
         environment: SeamEnvironment = SeamEnvironment.DEFAULT,
-        api_key: str,
+        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
         timeout: typing.Optional[float] = 60
     ):
         self._environment = environment

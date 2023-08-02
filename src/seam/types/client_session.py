@@ -11,7 +11,7 @@ from ..core.datetime_utils import serialize_datetime
 class ClientSession(pydantic.BaseModel):
     client_session_id: str
     user_identifier_key: typing.Optional[str]
-    created_at: str
+    created_at: dt.datetime
     token: str
     device_count: float
     connected_account_ids: typing.List[str]

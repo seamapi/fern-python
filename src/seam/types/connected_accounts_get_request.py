@@ -2,10 +2,9 @@
 
 import typing
 
-from .connected_accounts_get_request_connected_accounts_get_request import (
-    ConnectedAccountsGetRequestConnectedAccountsGetRequest,
-)
+from .connected_accounts_get_request_connected_account_id import ConnectedAccountsGetRequestConnectedAccountId
+from .connected_accounts_get_request_email import ConnectedAccountsGetRequestEmail
 
 ConnectedAccountsGetRequest = typing.Union[
-    ConnectedAccountsGetRequestConnectedAccountsGetRequest, ConnectedAccountsGetRequestConnectedAccountsGetRequest
+    ConnectedAccountsGetRequestConnectedAccountId, ConnectedAccountsGetRequestEmail
 ]

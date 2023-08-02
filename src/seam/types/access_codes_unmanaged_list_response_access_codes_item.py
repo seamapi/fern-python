@@ -18,12 +18,12 @@ class AccessCodesUnmanagedListResponseAccessCodesItem(pydantic.BaseModel):
     device_id: str
     name: typing.Optional[str]
     code: typing.Optional[str]
-    created_at: str
+    created_at: dt.datetime
     errors: typing.Optional[typing.Any]
     warnings: typing.Optional[typing.Any]
     is_managed: str
-    starts_at: typing.Optional[str]
-    ends_at: typing.Optional[str]
+    starts_at: typing.Optional[dt.datetime]
+    ends_at: typing.Optional[dt.datetime]
     status: typing_extensions.Literal["set"]
 
     def json(self, **kwargs: typing.Any) -> str:

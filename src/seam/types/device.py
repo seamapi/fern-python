@@ -23,7 +23,7 @@ class Device(pydantic.BaseModel):
     workspace_id: str
     errors: typing.List[DeviceErrorsItem]
     warnings: typing.List[DeviceWarningsItem]
-    created_at: str
+    created_at: dt.datetime
     is_managed: str
 
     def json(self, **kwargs: typing.Any) -> str:

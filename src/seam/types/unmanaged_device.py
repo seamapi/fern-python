@@ -21,7 +21,7 @@ class UnmanagedDevice(pydantic.BaseModel):
     workspace_id: str
     errors: typing.List[UnmanagedDeviceErrorsItem]
     warnings: typing.List[UnmanagedDeviceWarningsItem]
-    created_at: str
+    created_at: dt.datetime
     is_managed: str
     properties: UnmanagedDeviceProperties
 

@@ -19,12 +19,12 @@ class AccessCode(pydantic.BaseModel):
     device_id: str
     name: typing.Optional[str]
     code: typing.Optional[str]
-    created_at: str
+    created_at: dt.datetime
     errors: typing.Optional[typing.Any]
     warnings: typing.Optional[typing.Any]
     is_managed: str
-    starts_at: typing.Optional[str]
-    ends_at: typing.Optional[str]
+    starts_at: typing.Optional[dt.datetime]
+    ends_at: typing.Optional[dt.datetime]
     status: AccessCodeStatus
     is_backup_access_code_available: bool
     is_backup: typing.Optional[bool]

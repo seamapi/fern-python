@@ -12,7 +12,7 @@ from .connected_account_user_identifier import ConnectedAccountUserIdentifier
 
 class ConnectedAccount(pydantic.BaseModel):
     connected_account_id: typing.Optional[str]
-    created_at: typing.Optional[str]
+    created_at: typing.Optional[dt.datetime]
     user_identifier: typing.Optional[ConnectedAccountUserIdentifier]
     account_type: typing.Optional[str]
     errors: typing.Optional[typing.Any]

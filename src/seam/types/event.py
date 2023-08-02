@@ -13,8 +13,8 @@ class Event(pydantic.BaseModel):
     device_id: typing.Optional[str]
     event_type: str
     workspace_id: str
-    created_at: str
-    occurred_at: str
+    created_at: dt.datetime
+    occurred_at: dt.datetime
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -17,7 +17,7 @@ class ClimateSettingSchedule(pydantic.BaseModel):
     name: typing.Optional[str]
     schedule_starts_at: str
     schedule_ends_at: str
-    created_at: str
+    created_at: dt.datetime
     automatic_heating_enabled: typing.Optional[bool]
     automatic_cooling_enabled: typing.Optional[bool]
     hvac_mode_setting: typing.Optional[ClimateSettingScheduleHvacModeSetting]

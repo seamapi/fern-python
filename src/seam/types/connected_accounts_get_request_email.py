@@ -6,23 +6,10 @@ import typing
 import pydantic
 
 from ..core.datetime_utils import serialize_datetime
-from .connect_webview_device_selection_mode import ConnectWebviewDeviceSelectionMode
-from .connect_webview_status import ConnectWebviewStatus
 
 
-class ConnectWebview(pydantic.BaseModel):
-    connect_webview_id: str
-    connected_account_id: typing.Optional[str]
-    url: str
-    workspace_id: str
-    device_selection_mode: ConnectWebviewDeviceSelectionMode
-    accepted_providers: typing.List[str]
-    accepted_devices: typing.List[str]
-    any_provider_allowed: bool
-    any_device_allowed: bool
-    created_at: dt.datetime
-    login_successful: bool
-    status: ConnectWebviewStatus
+class ConnectedAccountsGetRequestEmail(pydantic.BaseModel):
+    email: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -75,15 +75,13 @@ from .connected_account_custom_metadata_value import ConnectedAccountCustomMetad
 from .connected_account_user_identifier import ConnectedAccountUserIdentifier
 from .connected_accounts_delete_response import ConnectedAccountsDeleteResponse
 from .connected_accounts_get_request import ConnectedAccountsGetRequest
-from .connected_accounts_get_request_connected_accounts_get_request import (
-    ConnectedAccountsGetRequestConnectedAccountsGetRequest,
-)
+from .connected_accounts_get_request_connected_account_id import ConnectedAccountsGetRequestConnectedAccountId
+from .connected_accounts_get_request_email import ConnectedAccountsGetRequestEmail
 from .connected_accounts_get_response import ConnectedAccountsGetResponse
 from .connected_accounts_list_response import ConnectedAccountsListResponse
 from .device import Device
 from .device_capabilities_supported_item import DeviceCapabilitiesSupportedItem
 from .device_device_type import DeviceDeviceType
-from .device_device_type_device_device_type import DeviceDeviceTypeDeviceDeviceType
 from .device_errors_item import DeviceErrorsItem
 from .device_properties import DeviceProperties
 from .device_properties_model import DevicePropertiesModel
@@ -99,23 +97,11 @@ from .devices_list_device_providers_response_device_providers_item_provider_cate
     DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem,
 )
 from .devices_list_request_device_type import DevicesListRequestDeviceType
-from .devices_list_request_device_type_devices_list_request_device_type import (
-    DevicesListRequestDeviceTypeDevicesListRequestDeviceType,
-)
 from .devices_list_request_device_types_item import DevicesListRequestDeviceTypesItem
-from .devices_list_request_device_types_item_devices_list_request_device_types_item import (
-    DevicesListRequestDeviceTypesItemDevicesListRequestDeviceTypesItem,
-)
 from .devices_list_request_manufacturer import DevicesListRequestManufacturer
 from .devices_list_response import DevicesListResponse
 from .devices_unmanaged_list_request_device_type import DevicesUnmanagedListRequestDeviceType
-from .devices_unmanaged_list_request_device_type_devices_unmanaged_list_request_device_type import (
-    DevicesUnmanagedListRequestDeviceTypeDevicesUnmanagedListRequestDeviceType,
-)
 from .devices_unmanaged_list_request_device_types_item import DevicesUnmanagedListRequestDeviceTypesItem
-from .devices_unmanaged_list_request_device_types_item_devices_unmanaged_list_request_device_types_item import (
-    DevicesUnmanagedListRequestDeviceTypesItemDevicesUnmanagedListRequestDeviceTypesItem,
-)
 from .devices_unmanaged_list_request_manufacturer import DevicesUnmanagedListRequestManufacturer
 from .devices_unmanaged_list_response import DevicesUnmanagedListResponse
 from .devices_unmanaged_update_response import DevicesUnmanagedUpdateResponse
@@ -133,13 +119,7 @@ from .health_get_service_health_response import HealthGetServiceHealthResponse
 from .health_service_by_service_name_response import HealthServiceByServiceNameResponse
 from .locks_get_response import LocksGetResponse
 from .locks_list_request_device_type import LocksListRequestDeviceType
-from .locks_list_request_device_type_locks_list_request_device_type import (
-    LocksListRequestDeviceTypeLocksListRequestDeviceType,
-)
 from .locks_list_request_device_types_item import LocksListRequestDeviceTypesItem
-from .locks_list_request_device_types_item_locks_list_request_device_types_item import (
-    LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem,
-)
 from .locks_list_request_manufacturer import LocksListRequestManufacturer
 from .locks_list_response import LocksListResponse
 from .locks_lock_door_response import LocksLockDoorResponse
@@ -167,13 +147,7 @@ from .thermostats_climate_setting_schedules_update_response import ThermostatsCl
 from .thermostats_get_response import ThermostatsGetResponse
 from .thermostats_heat_response import ThermostatsHeatResponse
 from .thermostats_list_request_device_type import ThermostatsListRequestDeviceType
-from .thermostats_list_request_device_type_thermostats_list_request_device_type import (
-    ThermostatsListRequestDeviceTypeThermostatsListRequestDeviceType,
-)
 from .thermostats_list_request_device_types_item import ThermostatsListRequestDeviceTypesItem
-from .thermostats_list_request_device_types_item_thermostats_list_request_device_types_item import (
-    ThermostatsListRequestDeviceTypesItemThermostatsListRequestDeviceTypesItem,
-)
 from .thermostats_list_request_manufacturer import ThermostatsListRequestManufacturer
 from .thermostats_list_response import ThermostatsListResponse
 from .thermostats_update_request_default_climate_setting import ThermostatsUpdateRequestDefaultClimateSetting
@@ -184,9 +158,6 @@ from .thermostats_update_response import ThermostatsUpdateResponse
 from .unmanaged_device import UnmanagedDevice
 from .unmanaged_device_capabilities_supported_item import UnmanagedDeviceCapabilitiesSupportedItem
 from .unmanaged_device_device_type import UnmanagedDeviceDeviceType
-from .unmanaged_device_device_type_unmanaged_device_device_type import (
-    UnmanagedDeviceDeviceTypeUnmanagedDeviceDeviceType,
-)
 from .unmanaged_device_errors_item import UnmanagedDeviceErrorsItem
 from .unmanaged_device_properties import UnmanagedDeviceProperties
 from .unmanaged_device_properties_model import UnmanagedDevicePropertiesModel
@@ -264,13 +235,13 @@ __all__ = [
     "ConnectedAccountUserIdentifier",
     "ConnectedAccountsDeleteResponse",
     "ConnectedAccountsGetRequest",
-    "ConnectedAccountsGetRequestConnectedAccountsGetRequest",
+    "ConnectedAccountsGetRequestConnectedAccountId",
+    "ConnectedAccountsGetRequestEmail",
     "ConnectedAccountsGetResponse",
     "ConnectedAccountsListResponse",
     "Device",
     "DeviceCapabilitiesSupportedItem",
     "DeviceDeviceType",
-    "DeviceDeviceTypeDeviceDeviceType",
     "DeviceErrorsItem",
     "DeviceProperties",
     "DevicePropertiesModel",
@@ -282,15 +253,11 @@ __all__ = [
     "DevicesListDeviceProvidersResponseDeviceProvidersItem",
     "DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem",
     "DevicesListRequestDeviceType",
-    "DevicesListRequestDeviceTypeDevicesListRequestDeviceType",
     "DevicesListRequestDeviceTypesItem",
-    "DevicesListRequestDeviceTypesItemDevicesListRequestDeviceTypesItem",
     "DevicesListRequestManufacturer",
     "DevicesListResponse",
     "DevicesUnmanagedListRequestDeviceType",
-    "DevicesUnmanagedListRequestDeviceTypeDevicesUnmanagedListRequestDeviceType",
     "DevicesUnmanagedListRequestDeviceTypesItem",
-    "DevicesUnmanagedListRequestDeviceTypesItemDevicesUnmanagedListRequestDeviceTypesItem",
     "DevicesUnmanagedListRequestManufacturer",
     "DevicesUnmanagedListResponse",
     "DevicesUnmanagedUpdateResponse",
@@ -308,9 +275,7 @@ __all__ = [
     "HealthServiceByServiceNameResponse",
     "LocksGetResponse",
     "LocksListRequestDeviceType",
-    "LocksListRequestDeviceTypeLocksListRequestDeviceType",
     "LocksListRequestDeviceTypesItem",
-    "LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem",
     "LocksListRequestManufacturer",
     "LocksListResponse",
     "LocksLockDoorResponse",
@@ -334,9 +299,7 @@ __all__ = [
     "ThermostatsGetResponse",
     "ThermostatsHeatResponse",
     "ThermostatsListRequestDeviceType",
-    "ThermostatsListRequestDeviceTypeThermostatsListRequestDeviceType",
     "ThermostatsListRequestDeviceTypesItem",
-    "ThermostatsListRequestDeviceTypesItemThermostatsListRequestDeviceTypesItem",
     "ThermostatsListRequestManufacturer",
     "ThermostatsListResponse",
     "ThermostatsUpdateRequestDefaultClimateSetting",
@@ -345,7 +308,6 @@ __all__ = [
     "UnmanagedDevice",
     "UnmanagedDeviceCapabilitiesSupportedItem",
     "UnmanagedDeviceDeviceType",
-    "UnmanagedDeviceDeviceTypeUnmanagedDeviceDeviceType",
     "UnmanagedDeviceErrorsItem",
     "UnmanagedDeviceProperties",
     "UnmanagedDevicePropertiesModel",

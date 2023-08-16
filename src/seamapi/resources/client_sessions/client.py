@@ -11,6 +11,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.bad_request_error import BadRequestError
 from ...errors.unauthorized_error import UnauthorizedError
+from ...types.client_session import ClientSession
 from ...types.client_sessions_create_response import ClientSessionsCreateResponse
 from ...types.client_sessions_delete_response import ClientSessionsDeleteResponse
 from ...types.client_sessions_get_response import ClientSessionsGetResponse
@@ -30,7 +31,7 @@ class ClientSessionsClient:
         user_identifier_key: typing.Optional[str] = OMIT,
         connect_webview_ids: typing.Optional[typing.List[str]] = OMIT,
         connected_account_ids: typing.Optional[typing.List[str]] = OMIT,
-    ) -> ClientSessionsCreateResponse:
+    ) -> ClientSession:
         """
         Parameters:
             - user_identifier_key: typing.Optional[str]. <span style="white-space: nowrap">`non-empty`</span>
@@ -54,7 +55,8 @@ class ClientSessionsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ClientSessionsCreateResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ClientSessionsCreateResponse, _response.json())  # type: ignore
+            return _parsed_response.client_session
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -91,7 +93,7 @@ class ClientSessionsClient:
 
     def get(
         self, *, client_session_id: typing.Optional[str] = OMIT, user_identifier_key: typing.Optional[str] = OMIT
-    ) -> ClientSessionsGetResponse:
+    ) -> ClientSession:
         """
         Parameters:
             - client_session_id: typing.Optional[str].
@@ -111,7 +113,8 @@ class ClientSessionsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ClientSessionsGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ClientSessionsGetResponse, _response.json())  # type: ignore
+            return _parsed_response.client_session
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -128,7 +131,7 @@ class ClientSessionsClient:
         client_session_id: typing.Optional[str] = OMIT,
         user_identifier_key: typing.Optional[str] = OMIT,
         without_user_identifier_key: typing.Optional[bool] = OMIT,
-    ) -> ClientSessionsListResponse:
+    ) -> typing.List[ClientSession]:
         """
         Parameters:
             - client_session_id: typing.Optional[str].
@@ -152,7 +155,8 @@ class ClientSessionsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ClientSessionsListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ClientSessionsListResponse, _response.json())  # type: ignore
+            return _parsed_response.client_sessions;
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

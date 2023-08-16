@@ -17,6 +17,7 @@ from ...types.devices_get_response import DevicesGetResponse
 from ...types.devices_list_device_providers_request_provider_category import (
     DevicesListDeviceProvidersRequestProviderCategory,
 )
+from ...types.device import Device
 from ...types.devices_list_device_providers_response import DevicesListDeviceProvidersResponse
 from ...types.devices_list_request_device_type import DevicesListRequestDeviceType
 from ...types.devices_list_request_device_types_item import DevicesListRequestDeviceTypesItem
@@ -60,7 +61,7 @@ class DevicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, *, device_id: typing.Optional[str] = OMIT, name: typing.Optional[str] = OMIT) -> DevicesGetResponse:
+    def get(self, *, device_id: typing.Optional[str] = OMIT, name: typing.Optional[str] = OMIT) -> Device:
         """
         Parameters:
             - device_id: typing.Optional[str].
@@ -80,7 +81,8 @@ class DevicesClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DevicesGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(DevicesGetResponse, _response.json())  # type: ignore
+            return _parsed_response.device
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -103,7 +105,7 @@ class DevicesClient:
         device_ids: typing.Optional[typing.List[str]] = OMIT,
         limit: typing.Optional[float] = OMIT,
         created_before: typing.Optional[dt.datetime] = OMIT,
-    ) -> DevicesListResponse:
+    ) -> typing.List[Device]:
         """
         Parameters:
             - connected_account_id: typing.Optional[str].
@@ -150,8 +152,10 @@ class DevicesClient:
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
+        
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
+            return _parsed_response.devices
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

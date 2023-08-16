@@ -21,6 +21,7 @@ from ...types.connect_webviews_create_request_custom_metadata_value import (
 from ...types.connect_webviews_create_request_device_selection_mode import (
     ConnectWebviewsCreateRequestDeviceSelectionMode,
 )
+from ...types.connect_webview import ConnectWebview
 from ...types.connect_webviews_create_request_provider_category import ConnectWebviewsCreateRequestProviderCategory
 from ...types.connect_webviews_create_response import ConnectWebviewsCreateResponse
 from ...types.connect_webviews_delete_response import ConnectWebviewsDeleteResponse
@@ -46,7 +47,7 @@ class ConnectWebviewsClient:
         custom_metadata: typing.Optional[
             typing.Dict[str, typing.Optional[ConnectWebviewsCreateRequestCustomMetadataValue]]
         ] = OMIT,
-    ) -> ConnectWebviewsCreateResponse:
+    ) -> ConnectWebview:
         """
         Parameters:
             - device_selection_mode: typing.Optional[ConnectWebviewsCreateRequestDeviceSelectionMode].
@@ -82,7 +83,8 @@ class ConnectWebviewsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConnectWebviewsCreateResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ConnectWebviewsCreateResponse, _response.json())  # type: ignore
+            return _parsed_response.connect_webview
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -117,7 +119,7 @@ class ConnectWebviewsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, *, connect_webview_id: str) -> ConnectWebviewsGetResponse:
+    def get(self, *, connect_webview_id: str) -> ConnectWebview:
         """
         Parameters:
             - connect_webview_id: str.
@@ -130,7 +132,8 @@ class ConnectWebviewsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConnectWebviewsGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ConnectWebviewsGetResponse, _response.json())  # type: ignore
+            return _parsed_response.connect_webview
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -141,7 +144,7 @@ class ConnectWebviewsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def list(self) -> ConnectWebviewsListResponse:
+    def list(self) -> typing.List[ConnectWebview]:
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "connect_webviews/list"),
@@ -149,7 +152,8 @@ class ConnectWebviewsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConnectWebviewsListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ConnectWebviewsListResponse, _response.json())  # type: ignore
+            return _parsed_response.connect_webviews
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

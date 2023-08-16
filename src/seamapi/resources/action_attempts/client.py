@@ -11,6 +11,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.bad_request_error import BadRequestError
 from ...errors.unauthorized_error import UnauthorizedError
+from ...types.action_attempt import ActionAttempt
 from ...types.action_attempts_get_response import ActionAttemptsGetResponse
 from ...types.action_attempts_list_response import ActionAttemptsListResponse
 
@@ -22,7 +23,7 @@ class ActionAttemptsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, *, action_attempt_id: str) -> ActionAttemptsGetResponse:
+    def get(self, *, action_attempt_id: str) -> ActionAttempt:
         """
         Parameters:
             - action_attempt_id: str.
@@ -35,7 +36,8 @@ class ActionAttemptsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ActionAttemptsGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ActionAttemptsGetResponse, _response.json())  # type: ignore
+            return _parsed_response.action_attempt
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -46,7 +48,7 @@ class ActionAttemptsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def list(self, *, action_attempt_ids: typing.List[str]) -> ActionAttemptsListResponse:
+    def list(self, *, action_attempt_ids: typing.List[str]) -> typing.List[ActionAttempt]:
         """
         Parameters:
             - action_attempt_ids: typing.List[str].
@@ -59,7 +61,8 @@ class ActionAttemptsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ActionAttemptsListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ActionAttemptsListResponse, _response.json())  # type: ignore
+            return _parsed_response.action_attempts
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

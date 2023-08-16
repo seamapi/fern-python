@@ -11,6 +11,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.bad_request_error import BadRequestError
 from ...errors.unauthorized_error import UnauthorizedError
+from ...types.event import Event
 from ...types.events_get_response import EventsGetResponse
 from ...types.events_list_request_between_item import EventsListRequestBetweenItem
 from ...types.events_list_request_event_type import EventsListRequestEventType
@@ -31,7 +32,7 @@ class EventsClient:
         event_id: typing.Optional[str] = OMIT,
         event_type: typing.Optional[str] = OMIT,
         device_id: typing.Optional[str] = OMIT,
-    ) -> EventsGetResponse:
+    ) -> Event:
         """
         Parameters:
             - event_id: typing.Optional[str].
@@ -55,7 +56,8 @@ class EventsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(EventsGetResponse, _response.json())  # type: ignore
+            return _parsed_response.event
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -78,7 +80,7 @@ class EventsClient:
         event_type: typing.Optional[EventsListRequestEventType] = OMIT,
         event_types: typing.Optional[typing.List[EventsListRequestEventTypesItem]] = OMIT,
         connected_account_id: typing.Optional[str] = OMIT,
-    ) -> EventsListResponse:
+    ) -> typing.List[Event]:
         """
         Parameters:
             - since: typing.Optional[str].
@@ -126,7 +128,8 @@ class EventsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(EventsListResponse, _response.json())  # type: ignore
+            return _parsed_response.events if _parsed_response.events is not None else []
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

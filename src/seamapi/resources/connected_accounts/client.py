@@ -11,6 +11,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.bad_request_error import BadRequestError
 from ...errors.unauthorized_error import UnauthorizedError
+from ...types.connected_account import ConnectedAccount
 from ...types.connected_accounts_delete_response import ConnectedAccountsDeleteResponse
 from ...types.connected_accounts_get_request import ConnectedAccountsGetRequest
 from ...types.connected_accounts_get_response import ConnectedAccountsGetResponse
@@ -48,7 +49,7 @@ class ConnectedAccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, *, request: ConnectedAccountsGetRequest) -> ConnectedAccountsGetResponse:
+    def get(self, *, request: ConnectedAccountsGetRequest) -> ConnectedAccount:
         """
         Parameters:
             - request: ConnectedAccountsGetRequest.
@@ -61,7 +62,8 @@ class ConnectedAccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConnectedAccountsGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ConnectedAccountsGetResponse, _response.json())  # type: ignore
+            return _parsed_response.connected_account
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -72,7 +74,7 @@ class ConnectedAccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def list(self) -> ConnectedAccountsListResponse:
+    def list(self) -> typing.List[ConnectedAccount]:
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "connected_accounts/list"),
@@ -80,7 +82,8 @@ class ConnectedAccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConnectedAccountsListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(ConnectedAccountsListResponse, _response.json())  # type: ignore
+            return _parsed_response.connected_accounts
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

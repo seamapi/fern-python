@@ -57,7 +57,7 @@ class EventsClient:
         )
         if 200 <= _response.status_code < 300:
             _parsed_response = pydantic.parse_obj_as(EventsGetResponse, _response.json())  # type: ignore
-            return _parsed_response.event
+            return _parsed_response.event # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

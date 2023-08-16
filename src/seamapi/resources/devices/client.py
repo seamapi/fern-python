@@ -145,6 +145,7 @@ class DevicesClient:
             _request["limit"] = limit
         if created_before is not OMIT:
             _request["created_before"] = created_before
+        auto_pagination_enabled = limit is OMIT
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "devices/list"),
@@ -155,7 +156,23 @@ class DevicesClient:
         
         if 200 <= _response.status_code < 300:
             _parsed_response = pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
-            return _parsed_response.devices
+
+            device_list = []
+            while _parsed_response.pagination.has_more:
+                device_list = device_list + _parsed_response.devices
+                _request["created_before"] = _parsed_response.devices[-1]["created_at"] # TODO eventually use pagination.next_created_before when Seam supports it
+                _response = self._client_wrapper.httpx_client.request(
+                    "POST",
+                    urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "devices/list"),
+                    json=jsonable_encoder(_request),
+                    headers=self._client_wrapper.get_headers(),
+                    timeout=60,
+                )
+                # TODO response handling, probably need a recursive function
+                _parsed_response = pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
+                
+            
+            return device_list
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

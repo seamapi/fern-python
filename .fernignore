@@ -2,3 +2,5 @@
 
 README.md
 src/seamapi/resources/
+src/seamapi/client.py
+src/seamapi/**init**.py

@@ -62,7 +62,7 @@ asyncio.run(update_access_code())
 If your environment has the variable `SEAM_API_KEY` then you don't need to 
 excplicitly pass in an api key. 
 
-```
+```python
 from seamapi import Seam
 
 seam_client = Seam()

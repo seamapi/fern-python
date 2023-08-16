@@ -14,6 +14,7 @@ from ...errors.unauthorized_error import UnauthorizedError
 from ...types.access_codes_create_multiple_request_behavior_when_code_cannot_be_shared import (
     AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared,
 )
+from ...types.access_code import AccessCode
 from ...types.access_codes_create_multiple_response import AccessCodesCreateMultipleResponse
 from ...types.access_codes_create_response import AccessCodesCreateResponse
 from ...types.access_codes_delete_response import AccessCodesDeleteResponse
@@ -123,7 +124,7 @@ class AccessCodesClient:
         attempt_for_offline_device: typing.Optional[bool] = OMIT,
         prefer_native_scheduling: typing.Optional[bool] = OMIT,
         use_backup_access_code_pool: typing.Optional[bool] = OMIT,
-    ) -> AccessCodesCreateMultipleResponse:
+    ) -> typing.List[AccessCode]:
         """
         Parameters:
             - device_ids: typing.List[str].
@@ -169,7 +170,8 @@ class AccessCodesClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccessCodesCreateMultipleResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(AccessCodesCreateMultipleResponse, _response.json())  # type: ignore
+            return _parsed_response.access_codes
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -221,7 +223,7 @@ class AccessCodesClient:
         device_id: typing.Optional[str] = OMIT,
         access_code_id: typing.Optional[str] = OMIT,
         code: typing.Optional[str] = OMIT,
-    ) -> AccessCodesGetResponse:
+    ) -> AccessCode:
         """
         Parameters:
             - device_id: typing.Optional[str].
@@ -245,7 +247,8 @@ class AccessCodesClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccessCodesGetResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(AccessCodesGetResponse, _response.json())  # type: ignore
+            return _parsed_response.access_code
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -258,7 +261,7 @@ class AccessCodesClient:
 
     def list(
         self, *, device_id: str, access_code_ids: typing.Optional[typing.List[str]] = OMIT
-    ) -> AccessCodesListResponse:
+    ) -> typing.List[AccessCode]:
         """
         Parameters:
             - device_id: str.
@@ -276,7 +279,8 @@ class AccessCodesClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccessCodesListResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(AccessCodesListResponse, _response.json())  # type: ignore
+            return _parsed_response.access_codes
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -287,7 +291,7 @@ class AccessCodesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def pull_backup_access_code(self, *, access_code_id: str) -> AccessCodesPullBackupAccessCodeResponse:
+    def pull_backup_access_code(self, *, access_code_id: str) -> AccessCode:
         """
         Parameters:
             - access_code_id: str.
@@ -300,7 +304,8 @@ class AccessCodesClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccessCodesPullBackupAccessCodeResponse, _response.json())  # type: ignore
+            _parsed_response = pydantic.parse_obj_as(AccessCodesPullBackupAccessCodeResponse, _response.json())  # type: ignore
+            return _parsed_response.backup_access_code
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

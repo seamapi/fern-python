@@ -2,6 +2,7 @@
 
 import typing
 
+import os
 import httpx
 
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -30,6 +31,12 @@ class Seam:
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
         timeout: typing.Optional[float] = 60
     ):
+        if api_key is None:
+            api_key = os.environ.get("SEAM_API_KEY", None)
+        if api_key is None:
+            raise Exception(
+                "SEAM_API_KEY not found in environment, and api_key not provided"
+            )
         self._client_wrapper = SyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
             api_key=api_key,
@@ -59,6 +66,12 @@ class AsyncSeam:
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
         timeout: typing.Optional[float] = 60
     ):
+        if api_key is None:
+            api_key = os.environ.get("SEAM_API_KEY", None)
+        if api_key is None:
+            raise Exception(
+                "SEAM_API_KEY not found in environment, and api_key not provided"
+            )
         self._client_wrapper = AsyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
             api_key=api_key,

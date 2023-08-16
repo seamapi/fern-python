@@ -20,9 +20,9 @@ poetry add fern-seam
 ## Usage
 
 ```python
-from seam.client import Seam
+from seamapi import Seam
 
-seam_client = Seam(token="MY_TOKEN")
+seam_client = Seam(api_key="MY_API_KEY")
 
 response = seam_client.access_codes.update_and_wait_until_ready(
     access_code_id="my access code id",
@@ -40,9 +40,9 @@ print(response.access_code_id)
 This SDK also includes an async client, which supports the `await` syntax:
 
 ```python
-from seam.client import AsyncSeam
+from seamapi import AsyncSeam
 
-seam_client = AsyncSeam(token="MY_TOKEN")
+seam_client = AsyncSeam(api_key="MY_API_KEY")
 
 async def update_access_code() -> None:
     response = seam_client.access_codes.update_and_wait_until_ready(
@@ -56,6 +56,16 @@ async def update_access_code() -> None:
     print(response.access_code_id)
 
 asyncio.run(update_access_code())
+```
+
+## Environment Variables
+If your environment has the variable `SEAM_API_KEY` then you don't need to 
+excplicitly pass in an api key. 
+
+```
+from seamapi import Seam
+
+seam_client = Seam()
 ```
 
 ## Beta status

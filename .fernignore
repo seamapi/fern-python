@@ -3,8 +3,8 @@
 README.md
 src/seamapi/resources/
 src/seamapi/client.py
-src/seamapi/__init__.py
-src/seamapi/core/__init__.py
-src/seamapi/errors/__init__.py
-src/seamapi/resources/__init__.py
-src/seamapi/types/__init__.py
+# src/seamapi/__init__.py
+# src/seamapi/core/__init__.py
+# src/seamapi/errors/__init__.py
+# src/seamapi/resources/__init__.py
+# src/seamapi/types/__init__.py

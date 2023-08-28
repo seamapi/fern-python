@@ -21,6 +21,7 @@ class SimulateCreateUnmanagedAccessCodeResponseAccessCode_Ongoing(
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -31,6 +32,7 @@ class SimulateCreateUnmanagedAccessCodeResponseAccessCode_TimeBound(
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 

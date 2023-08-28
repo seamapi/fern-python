@@ -16,6 +16,7 @@ class ActionAttempt_Success(ActionAttemptSuccess):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -24,6 +25,7 @@ class ActionAttempt_Pending(ActionAttemptPending):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -32,6 +34,7 @@ class ActionAttempt_Error(ActionAttemptError):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 

@@ -4,3 +4,5 @@ README.md
 src/seamapi/resources/
 src/seamapi/client.py
 src/seamapi/__init__.py
+src/seamapi/types/devices_list_response.py
+src/seamapi/types/pagination.py

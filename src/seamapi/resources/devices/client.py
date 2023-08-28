@@ -126,6 +126,45 @@ class DevicesClient:
 
             - created_before: typing.Optional[dt.datetime].
         """
+        _devices: typing.List[Device] = []
+        _response = self.__get_list_devices_page(
+            connected_account_id=connected_account_id, 
+            connected_account_ids=connected_account_ids,
+            connect_webview_id=connect_webview_id,
+            device_type=device_type,
+            device_types=device_types,
+            manufacturer=manufacturer,
+            device_ids=device_ids,
+            limit=limit,
+            created_before=created_before)
+        _devices.extend(_response.devices)
+        while _response.pagination is not None and _response.pagination.has_more: 
+            _response = self.__get_list_devices_page(
+                connected_account_id=connected_account_id, 
+                connected_account_ids=connected_account_ids,
+                connect_webview_id=connect_webview_id,
+                device_type=device_type,
+                device_types=device_types,
+                manufacturer=manufacturer,
+                device_ids=device_ids,
+                limit=limit,
+                created_before=_response.devices[-1].created_at)
+            _devices.extend(_response.devices)
+        return _devices
+
+    def __get_list_devices_page(
+        self,
+        *,
+        connected_account_id: typing.Optional[str] = OMIT,
+        connected_account_ids: typing.Optional[typing.List[str]] = OMIT,
+        connect_webview_id: typing.Optional[str] = OMIT,
+        device_type: typing.Optional[DevicesListRequestDeviceType] = OMIT,
+        device_types: typing.Optional[typing.List[DevicesListRequestDeviceTypesItem]] = OMIT,
+        manufacturer: typing.Optional[DevicesListRequestManufacturer] = OMIT,
+        device_ids: typing.Optional[typing.List[str]] = OMIT,
+        limit: typing.Optional[float] = OMIT,
+        created_before: typing.Optional[dt.datetime] = OMIT,
+    ) -> DevicesListResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if connected_account_id is not OMIT:
             _request["connected_account_id"] = connected_account_id
@@ -152,10 +191,8 @@ class DevicesClient:
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
-        
         if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
-            return _parsed_response.devices
+            return pydantic.parse_obj_as(DevicesListResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         if _response.status_code == 401:

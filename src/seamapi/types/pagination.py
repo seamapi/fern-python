@@ -7,13 +7,11 @@ import pydantic
 
 from ..core.datetime_utils import serialize_datetime
 from .device import Device
-from .pagination import Pagination
 
 
-class DevicesListResponse(pydantic.BaseModel):
-    devices: typing.List[Device]
-    ok: bool
-    pagination: typing.Optional[Pagination]
+class Pagination(pydantic.BaseModel):
+    has_more: bool
+    
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -25,5 +23,4 @@ class DevicesListResponse(pydantic.BaseModel):
 
     class Config:
         frozen = True
-        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

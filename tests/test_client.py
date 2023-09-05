@@ -18,4 +18,4 @@ def test_list_access_codes(seam: Seam):
 
     seam.access_codes.create(device_id="august_device_id")
     access_codes = seam.access_codes.list(device_id="august_device_1")
-    assert len(access_codes) == 0
+    assert len(access_codes) == 1

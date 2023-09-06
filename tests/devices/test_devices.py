@@ -5,13 +5,13 @@ from seamapi.utils.deep_attr_dict import DeepAttrDict
 
 
 def test_devices(seam: Seam):
-    run_august_factory(seam)
-
     devices = seam.devices.list()
     assert len(devices) > 0
 
     connected_account = seam.connected_accounts.list()[0]
-    devices = seam.devices.list(connected_account=connected_account)
+    devices = seam.devices.list(
+        connected_account=connected_account.connected_account_id
+    )
     assert len(devices) > 0
     devices = seam.devices.list(connected_accounts=[connected_account])
     assert len(devices) > 0
@@ -88,9 +88,7 @@ def test_unmanaged_devices(seam: Seam):
     connected_account = seam.connected_accounts.list()[0]
     devices = seam.devices.unmanaged.list(connected_account=connected_account)
     assert len(devices) > 0
-    devices = seam.devices.unmanaged.list(
-        connected_accounts=[connected_account]
-    )
+    devices = seam.devices.unmanaged.list(connected_accounts=[connected_account])
     assert len(devices) > 0
 
     devices = seam.devices.unmanaged.list(device_type="august_lock")
